@@ -1,15 +1,27 @@
 .large-9.columns(role='content')
+  <span data-tooltip aria-haspopup="true" class="has-tip [tip-top tip-bottom tip-left tip-right] [radius round]" title="Tooltips are awesome, you should totally use them!">extended information</span>
   article
   - for article in articles
     h3
       a(href='#') #{article.title}
     h6
-      | 2015-03-22
-      a(href='#') &#x8F6C;&#x8F7D;
-      a(href='#') &#x4E16;&#x754C;
-      a(href='#') &#x8D44;&#x6E90;
+      span.secondary.label 2015-03-22
+      | 
+      a
+        span.label 转载
+      | 
+      a
+        span.label 故事
+      | 
+      span.success.label 36 ℃
+      // span.secondary.label views:36
+      // a(href='#') 转载
+      // | 
+      // a(href='#') &#x4E16;&#x754C;
+      // | 
+      // a(href='#') &#x8D44;&#x6E90;
     p
       | #{article.content}
-    a.tiny.button(href='#') &#x8F6C;&#x8F7D;
-    a.tiny.button(href='#') &#x6545;&#x4E8B;
+    // a.tiny.button(href='#') &#x8F6C;&#x8F7D;
+    // a.tiny.button(href='#') &#x6545;&#x4E8B;
     hr
