@@ -7,8 +7,10 @@ var router = express.Router();
 //});
 
 // Router
-var main = require('../js/controller/main.js');
-router.get('/', main.HomePage);
+//var main = require('../js/controller/main.js');
+//router.get('/', main.HomePage);
+var article = require('../js/controller/article.js');
+router.get('/', article.getTen);
 
 var test = require('../js/controller/test.js');
 router.get('/test', test.hello);

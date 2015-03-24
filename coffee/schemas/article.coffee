@@ -10,13 +10,15 @@ ArticleSchema = new Schema {
     type: String
   tags: [
     {
-      type: ObjectId
-      ref: 'Tag'
+      type: String
     }
   ]
-  catalogue:
+  category:
     type: ObjectId
-    ref: 'Catalogue'
+    ref: 'Category'
+  pv:
+    type: Number
+    default: 0
   meta:
     createDate:
       type: String

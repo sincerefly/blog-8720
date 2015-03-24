@@ -1,4 +1,5 @@
 settings = require '../../settings.js'
+Article = require '../schemas/article'
 
 exports.HomePage= (req, res) ->
   articles = [
@@ -17,3 +18,25 @@ exports.HomePage= (req, res) ->
     'articles': articles
   }
   return res.render 'index', data
+
+
+
+exports.index= (req, res) ->
+  Article
+    .find {}
+    .select ('title content')
+    .limit 10
+    .exec (err, articles) ->
+      throw err if err
+
+      console.log articles
+
+      data = {
+        'blog_title': settings.blog_title,
+        'blog_description': settings.blog_description,
+        'articles': articles
+      }
+      return res.render 'index', data
+
+
+
