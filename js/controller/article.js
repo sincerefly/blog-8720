@@ -1,10 +1,37 @@
-var Article, Category, settings;
+var Article, Category, Remarkable, fun, hljs, md, settings;
 
-settings = require('../../settings.js');
+Remarkable = require('remarkable');
+
+hljs = require('highlight.js');
 
 Article = require('../schemas/article');
 
 Category = require('../schemas/category');
+
+settings = require('../../settings.js');
+
+fun = function(str, lang) {
+  var err;
+  if (lang && hljs.getLanguage(lang)) {
+    try {
+      return hljs.highlight(lang, str).value;
+    } catch (_error) {
+      err = _error;
+      console.log(err);
+    }
+  }
+  try {
+    return hljs.highlightAuto(str).value;
+  } catch (_error) {
+    err = _error;
+    console.log(err);
+  }
+  return '';
+};
+
+md = new Remarkable({
+  highlight: fun
+});
 
 exports.get = function(req, res) {
   var _id;
@@ -27,15 +54,17 @@ exports.get = function(req, res) {
         'pv': 1
       }
     }, function(err) {
-      var data;
+      var _article, data;
       if (err) {
         throw err;
       }
+      _article = article;
+      _article.content = md.render(_article.content);
       data = {
         'blog_title': settings.blog_title,
         'blog_description': settings.blog_description,
         'blog_host': settings.blog_host,
-        'article': article
+        'article': _article
       };
       return res.render('article', data);
     });
@@ -174,6 +203,11 @@ exports.getByDate = function(req, res) {
       return res.render('month', data);
     });
   });
+};
+
+exports.getPostForm = function(req, res) {
+  console.log('------');
+  return res.render('admin/post');
 };
 
 exports.post = function(req, res) {

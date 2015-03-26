@@ -2,8 +2,10 @@
   article
     h3
       a(href='#') #{article.title}
-    p
-      | #{article.content}
+    | !{article.content}
+    | 
+    br
+    | 
     h6
       span.secondary.label #{article.meta.createDate}
       | 

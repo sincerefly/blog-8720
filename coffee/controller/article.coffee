@@ -1,6 +1,38 @@
-settings = require '../../settings.js'
+Remarkable = require 'remarkable'
+hljs = require 'highlight.js'
 Article = require '../schemas/article'
 Category = require '../schemas/category'
+settings = require '../../settings.js'
+
+fun = (str, lang) ->
+    if lang and hljs.getLanguage(lang)
+      try
+        return hljs.highlight(lang, str).value
+      catch err
+        console.log err
+    try
+      return hljs.highlightAuto(str).value
+    catch err
+      console.log err
+    return ''; # use external default escaping
+
+md = new Remarkable({highlight: fun})
+
+#md = new Remarkable({
+#  highlight: (str, lang) {
+#    if (lang && hljs.getLanguage(lang)) {
+#      try {
+#        return hljs.highlight(lang, str).value;
+#      } catch (err) {}
+#    }
+#
+#    try {
+#      return hljs.highlightAuto(str).value;
+#    } catch (err) {}
+#
+#    return ''; # use external default escaping
+#  }
+#})
 
 
 # 获取文章
@@ -25,11 +57,14 @@ exports.get = (req, res) ->
         throw err if err
 
         #return res.jsonp {'status': 0, 'message': '获取文章并且pv+1成功', 'data': data}
+        _article = article
+        _article.content = md.render(_article.content)
+
         data = {
           'blog_title': settings.blog_title,
           'blog_description': settings.blog_description,
           'blog_host': settings.blog_host,
-          'article': article
+          'article': _article
         }
         return res.render 'article', data
 
@@ -177,6 +212,12 @@ exports.getByDate = (req, res) ->
         }
         return res.render 'month', data
 
+
+# 获取发布文章的表单
+exports.getPostForm = (req, res) ->
+  console.log '------'
+  return res.render 'admin/post'
+
 # 发布文章
 exports.post = (req, res) ->
 
@@ -236,6 +277,7 @@ exports.post = (req, res) ->
     Article.create _article, (err) ->
       throw err if err
       return res.jsonp {'status':'0', 'message': '保存文章成功'}
+      #return res.render 'admin/post'
 
 
 
