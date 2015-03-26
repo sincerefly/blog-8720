@@ -1,17 +1,16 @@
 .large-9.columns(role='content')
-  <span data-tooltip aria-haspopup="true" class="has-tip [tip-top tip-bottom tip-left tip-right] [radius round]" title="Tooltips are awesome, you should totally use them!">extended information</span>
   article
   - for article in articles
     h3
       a(href='#{blog_host}p/#{article.meta.timeStamp}') #{article.title}
+    p
+      | #{article.content}
     h6
       span.secondary.label  #{article.meta.createDate}
       | 
       - for tag in article.tags
-        a(href='#')
+        a(href='#{blog_host}t/#{tag}')
           span.label #{tag}
         | 
       span.success.label #{article.pv} ℃
-    p
-      | #{article.content}
     hr

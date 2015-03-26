@@ -21,7 +21,8 @@ exports.HomePage= (req, res) ->
 
 
 
-exports.index= (req, res) ->
+exports.index = (req, res) ->
+
   Article
     .find {}
     .select ('title content')
@@ -37,6 +38,12 @@ exports.index= (req, res) ->
         'articles': articles
       }
       return res.render 'index', data
+
+
+
+
+
+
 
 
 
