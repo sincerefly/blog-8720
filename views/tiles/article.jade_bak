@@ -1,0 +1,15 @@
+.row
+  article
+    div(style='text-align:center;')
+      h3
+        a(href='#') #{article.title}
+    | !{article.content}
+    h6
+      span.secondary.label #{article.meta.createDate}
+      | 
+      - for tag in article.tags
+        a(href='#{blog_host}t/#{tag}')
+          span.label #{tag}
+        | 
+      span.success.label #{article.pv} ℃
+    hr

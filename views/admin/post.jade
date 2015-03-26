@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Blog
+  body
+    header
+      h1 发表新文章
+    article
+      form(method='post')
+        | 标题
+        br
+        |   
+        input(type='text', name='title')
+        br
+        | 正文
+        br
+        |   
+        textarea(name='content', rows='20', cols='100')
+        br
+        |   
+        | 目录
+        br
+        |   
+        input(type='text', name='category')
+        br
+        |   
+        | 标签
+        br
+        |   
+        input(type='text', name='tags')
+        br
+        |   
+        br
+        |   
+        input(type='submit', value='发表')
+        br
