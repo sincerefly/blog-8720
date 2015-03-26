@@ -1,0 +1,29 @@
+.large-9.columns(role='content')
+  | 在
+  | 
+  a(href='#{blog_host}t/#{search_tag}')
+    span.label #{search_tag}
+  | 
+  | 标签下，共有
+  | 
+  span.round.label #{article_count}
+  | 
+  | 篇博文
+  <hr />
+  article
+  - for article in articles
+    h6
+      span.secondary.label  #{article.meta.createDate}
+      | 
+      a(href='#{blog_host}p/#{article.meta.timeStamp}') #{article.title}
+//    p
+//      | #{article.content}
+//    h6
+//      span.secondary.label  #{article.meta.createDate}
+//      | 
+//      - for tag in article.tags
+//        a(href='#{blog_host}t/#{tag}')
+//          span.label #{tag}
+//        | 
+//      span.success.label #{article.pv} ℃
+    hr

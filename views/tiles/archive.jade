@@ -1,0 +1,20 @@
+.large-9.columns(role='content')
+  | 文章归档
+  <hr />
+  article
+  - for article in articles
+    h6
+      span.secondary.label  #{article.meta.createDate}
+      | 
+      a(href='#{blog_host}p/#{article.meta.timeStamp}') #{article.title}
+//    p
+//      | #{article.content}
+//    h6
+//      span.secondary.label  #{article.meta.createDate}
+//      | 
+//      - for tag in article.tags
+//        a(href='#{blog_host}t/#{tag}')
+//          span.label #{tag}
+//        | 
+//      span.success.label #{article.pv} ℃
+    hr
