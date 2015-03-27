@@ -80,17 +80,18 @@ exports.getTen = (req, res) ->
       select: 'name -_id'
     }
     .sort ({'meta.timeStamp': -1})
-    .limit 10
+    .limit settings.page_article_num
     .exec (err, articles) ->
       throw err if err
 
       _articles = []
 
+      console.log settings.index_abstract_str_len
       # 因为不能直接修改查询返回的信息，所以重新构造数据
       for ar in articles
         _ar = {
           'title': ar.title,
-          'content': ar.content.substring(0, 10),  # 首页每篇文章显示的字数
+          'content': md.render(ar.content.substring(0, settings.index_abstract_str_len)),  # 首页每篇文章显示的字数
           'category': ar.content.category,
           'tags': ar.tags,
           'pv': ar.pv,

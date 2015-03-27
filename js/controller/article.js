@@ -77,17 +77,18 @@ exports.getTen = function(req, res) {
     select: 'name -_id'
   }).sort({
     'meta.timeStamp': -1
-  }).limit(10).exec(function(err, articles) {
+  }).limit(settings.page_article_num).exec(function(err, articles) {
     var _ar, _articles, ar, data, i, len;
     if (err) {
       throw err;
     }
     _articles = [];
+    console.log(settings.index_abstract_str_len);
     for (i = 0, len = articles.length; i < len; i++) {
       ar = articles[i];
       _ar = {
         'title': ar.title,
-        'content': ar.content.substring(0, 10),
+        'content': md.render(ar.content.substring(0, settings.index_abstract_str_len)),
         'category': ar.content.category,
         'tags': ar.tags,
         'pv': ar.pv,
