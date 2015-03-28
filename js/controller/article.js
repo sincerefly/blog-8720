@@ -83,7 +83,6 @@ exports.getTen = function(req, res) {
       throw err;
     }
     _articles = [];
-    console.log(settings.index_abstract_str_len);
     for (i = 0, len = articles.length; i < len; i++) {
       ar = articles[i];
       _ar = {
@@ -207,7 +206,6 @@ exports.getByDate = function(req, res) {
 };
 
 exports.getPostForm = function(req, res) {
-  console.log('------');
   return res.render('admin/post');
 };
 
@@ -226,7 +224,6 @@ exports.post = function(req, res) {
       throw err;
     }
     _id = id;
-    console.log(_id);
     _now = new Date();
     _year = _now.getFullYear();
     _month = _now.getMonth() + 1;
@@ -243,9 +240,6 @@ exports.post = function(req, res) {
     _createDate = _year + '-' + appendzero(_month) + '-' + appendzero(_date);
     _createTime = appendzero(_hours) + ':' + appendzero(_minutes) + ':' + appendzero(_seconds);
     _timeStamp = _now.getTime();
-    console.log(_createDate);
-    console.log(_createTime);
-    console.log(_timeStamp);
     _article = {
       title: req.body.title,
       content: req.body.content,

@@ -86,7 +86,6 @@ exports.getTen = (req, res) ->
 
       _articles = []
 
-      console.log settings.index_abstract_str_len
       # 因为不能直接修改查询返回的信息，所以重新构造数据
       for ar in articles
         _ar = {
@@ -104,7 +103,6 @@ exports.getTen = (req, res) ->
         _articles.push(_ar)
 
       console.log _articles
-
 
       data = {
         'blog_title': settings.blog_title,
@@ -216,7 +214,7 @@ exports.getByDate = (req, res) ->
 
 # 获取发布文章的表单
 exports.getPostForm = (req, res) ->
-  console.log '------'
+  #console.log '------'
   return res.render 'admin/post'
 
 # 发布文章
@@ -237,7 +235,7 @@ exports.post = (req, res) ->
     throw err if err
     _id = id
 
-    console.log _id
+    #console.log _id
 
     _now = new Date()
     _year = _now.getFullYear()
@@ -257,9 +255,9 @@ exports.post = (req, res) ->
     _createTime = appendzero(_hours) + ':' + appendzero(_minutes) + ':' + appendzero(_seconds)
     _timeStamp = _now.getTime()
 
-    console.log _createDate  # '2015-03-24'
-    console.log _createTime  # '10:36:00'
-    console.log _timeStamp   # '1427164560310'
+    #console.log _createDate  # '2015-03-24'
+    #console.log _createTime  # '10:36:00'
+    #console.log _timeStamp   # '1427164560310'
 
     # 文章数据
     _article = {
