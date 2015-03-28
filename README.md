@@ -15,11 +15,11 @@ Demo: [http://test.ishell.me/](http://test.ishell.me/)
 - Highlight.js
 
 博客支持：
-- [x]Markdown
-- [x]代码高亮
-- [x]访问统计
-- [ ]后台管理
-- [ ]更换主题
+- [x] Markdown
+- [x] 代码高亮
+- [x] 访问统计
+- [ ] 后台管理
+- [ ] 更换主题
 
 ---
 
