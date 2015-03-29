@@ -38,11 +38,11 @@ js的});});});});});});实在恐怖，python程序员表示恐慌，所以选择
 
 ###Use
 
-1, 确定你已成功安装node,npm,并启动了mongodb
-2, 在博客目录中运行npm install
-3, 修改settings.js中的设置，不要害怕，每一项都有说明的呢
-4, node bin/www
-5, 访问http://localhost:3000
+1. 确定你已成功安装node,npm,并启动了mongodb
+2. 在博客目录中运行npm install
+3. 修改settings.js中的设置，不要害怕，每一项都有说明的呢
+4. node bin/www
+5. 访问http://localhost:3000
 
 OK，之后你想做什么就做什么吧
 
