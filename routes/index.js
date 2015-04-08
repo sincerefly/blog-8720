@@ -5,7 +5,7 @@ var router = express.Router();
 // Router
 var article = require('../js/controller/article.js');
 router.get('/', article.getTen);
-router.get('/archive', article.getAll);
+router.get('/archive', article.getArchive);
 router.get('/date/:month', article.getByDate);
 
 var test = require('../js/controller/test.js');

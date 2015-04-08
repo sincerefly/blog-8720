@@ -18,6 +18,8 @@ fun = (str, lang) ->
 
 md = new Remarkable({highlight: fun})
 
+
+# 这段代码是原js代码，现已使用如上代码代替
 #md = new Remarkable({
 #  highlight: (str, lang) {
 #    if (lang && hljs.getLanguage(lang)) {
@@ -74,13 +76,13 @@ exports.getTen = (req, res) ->
 
   Article
     .find {}
-    .select ('title content category tags pv meta.createDate meta.createTime meta.timeStamp')
+    .select ('title content category tags pv meta.createDate meta.timeStamp')
     .populate {
       path: 'category'
       select: 'name -_id'
     }
     .sort ({'meta.timeStamp': -1})
-    .limit settings.page_article_num
+    .limit settings.page_article_num #根据配置文件设置获取的文章数
     .exec (err, articles) ->
       throw err if err
 
@@ -88,21 +90,20 @@ exports.getTen = (req, res) ->
 
       # 因为不能直接修改查询返回的信息，所以重新构造数据
       for ar in articles
+        con = ar.content.substring(0, settings.index_abstract_str_len)
+        console.log con.replace('#', '')
         _ar = {
           'title': ar.title,
-          'content': md.render(ar.content.substring(0, settings.index_abstract_str_len)),  # 首页每篇文章显示的字数
+          'content': md.render(ar.content.substring(0, settings.index_abstract_str_len).replace('#', '')),  # 首页每篇文章显示的字数
           'category': ar.content.category,
           'tags': ar.tags,
           'pv': ar.pv,
           'meta': {
             'createDate': ar.meta.createDate,
-            'createTime': ar.meta.createTime,
             'timeStamp': ar.meta.timeStamp
           }
         }
         _articles.push(_ar)
-
-      console.log _articles
 
       data = {
         'blog_title': settings.blog_title,
@@ -114,11 +115,11 @@ exports.getTen = (req, res) ->
 
 
 # 获取文章归档信息
-exports.getAll = (req, res) ->
+exports.getArchive = (req, res) ->
 
   Article
     .find {}
-    .select ('title content category tags pv meta.createDate meta.createTime meta.timeStamp')
+    .select ('title content category tags pv meta.createDate meta.timeStamp')
     .populate {
       path: 'category'
       select: 'name -_id'
@@ -133,14 +134,8 @@ exports.getAll = (req, res) ->
       for ar in articles
         _ar = {
           'title': ar.title,
-          'content': ar.content.substring(0, 10),  # 首页每篇文章显示的字数
-          'category': ar.content.category,
-          'tags': ar.tags,
-          'pv': ar.pv,
           'meta': {
             'createDate': ar.meta.createDate,
-            'createTime': ar.meta.createTime,
-            'timeStamp': ar.meta.timeStamp
           }
         }
         _articles.push(_ar)

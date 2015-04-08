@@ -1,7 +1,7 @@
 module.exports = {
   blog_title: '即或不然',
   blog_description: '不忘初心，方得始终',
-  blog_host: 'http://localhost:3000/',
+  blog_host: 'http://192.168.0.103:3000/',
 
   // 首页文章摘要的字符数
   index_abstract_str_len: 150,

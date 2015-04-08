@@ -72,34 +72,34 @@ exports.get = function(req, res) {
 };
 
 exports.getTen = function(req, res) {
-  return Article.find({}).select('title content category tags pv meta.createDate meta.createTime meta.timeStamp').populate({
+  return Article.find({}).select('title content category tags pv meta.createDate meta.timeStamp').populate({
     path: 'category',
     select: 'name -_id'
   }).sort({
     'meta.timeStamp': -1
   }).limit(settings.page_article_num).exec(function(err, articles) {
-    var _ar, _articles, ar, data, i, len;
+    var _ar, _articles, ar, con, data, i, len;
     if (err) {
       throw err;
     }
     _articles = [];
     for (i = 0, len = articles.length; i < len; i++) {
       ar = articles[i];
+      con = ar.content.substring(0, settings.index_abstract_str_len);
+      console.log(con.replace('#', ''));
       _ar = {
         'title': ar.title,
-        'content': md.render(ar.content.substring(0, settings.index_abstract_str_len)),
+        'content': md.render(ar.content.substring(0, settings.index_abstract_str_len).replace('#', '')),
         'category': ar.content.category,
         'tags': ar.tags,
         'pv': ar.pv,
         'meta': {
           'createDate': ar.meta.createDate,
-          'createTime': ar.meta.createTime,
           'timeStamp': ar.meta.timeStamp
         }
       };
       _articles.push(_ar);
     }
-    console.log(_articles);
     data = {
       'blog_title': settings.blog_title,
       'blog_description': settings.blog_description,
@@ -110,8 +110,8 @@ exports.getTen = function(req, res) {
   });
 };
 
-exports.getAll = function(req, res) {
-  return Article.find({}).select('title content category tags pv meta.createDate meta.createTime meta.timeStamp').populate({
+exports.getArchive = function(req, res) {
+  return Article.find({}).select('title content category tags pv meta.createDate meta.timeStamp').populate({
     path: 'category',
     select: 'name -_id'
   }).sort({
@@ -126,14 +126,8 @@ exports.getAll = function(req, res) {
       ar = articles[i];
       _ar = {
         'title': ar.title,
-        'content': ar.content.substring(0, 10),
-        'category': ar.content.category,
-        'tags': ar.tags,
-        'pv': ar.pv,
         'meta': {
-          'createDate': ar.meta.createDate,
-          'createTime': ar.meta.createTime,
-          'timeStamp': ar.meta.timeStamp
+          'createDate': ar.meta.createDate
         }
       };
       _articles.push(_ar);
