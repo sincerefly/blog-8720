@@ -2,12 +2,31 @@ doctype html
 html
   head
     meta(charset='UTF-8')
+    head
+    include ../tiles/header.jade
+
     title Blog
   body
     header
       h1 发表新文章
     article
       form(method='post')
+        .row
+          .large-6.columns
+            .row.collapse.prefix-radius
+              .small-3.columns
+                span.prefix 标题
+              |       
+              .small-9.columns
+                input(type='text', placeholder='Value')
+        .row
+          .large-6.columns
+            .row.collapse.prefix-radius
+              .small-3.columns
+                span.prefix 标签
+              |       
+              .small-9.columns
+                input(type='text', placeholder='Value')
         | 标题
         br
         |   

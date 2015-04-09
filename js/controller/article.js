@@ -33,7 +33,7 @@ md = new Remarkable({
   highlight: fun
 });
 
-exports.get = function(req, res) {
+exports.getById = function(req, res) {
   var _id;
   _id = req.params.id;
   console.log(_id);
@@ -72,12 +72,15 @@ exports.get = function(req, res) {
 };
 
 exports.getTen = function(req, res) {
+  var _pageArticleCount, page;
+  page = req.params.page ? parseInt(req.params.page) : 1;
+  _pageArticleCount = settings.page_article_num;
   return Article.find({}).select('title content category tags pv meta.createDate meta.timeStamp').populate({
     path: 'category',
     select: 'name -_id'
   }).sort({
     'meta.timeStamp': -1
-  }).limit(settings.page_article_num).exec(function(err, articles) {
+  }).skip((page - 1) * _pageArticleCount).limit(_pageArticleCount).exec(function(err, articles) {
     var _ar, _articles, ar, con, data, i, len;
     if (err) {
       throw err;
@@ -104,7 +107,10 @@ exports.getTen = function(req, res) {
       'blog_title': settings.blog_title,
       'blog_description': settings.blog_description,
       'blog_host': settings.blog_host,
-      'articles': _articles
+      'articles': _articles,
+      'isFirstPage': (page - 1) === 0,
+      'isLastPage': _articles.length < _pageArticleCount,
+      'page': page
     };
     return res.render('index', data);
   });
@@ -127,7 +133,8 @@ exports.getArchive = function(req, res) {
       _ar = {
         'title': ar.title,
         'meta': {
-          'createDate': ar.meta.createDate
+          'createDate': ar.meta.createDate,
+          'timeStamp': ar.meta.timeStamp
         }
       };
       _articles.push(_ar);

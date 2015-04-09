@@ -14,3 +14,14 @@
         | 
       span.success.label #{article.pv} ℃
     hr
+  .div
+    .left
+      - if (isFirstPage)
+        a.button.round.tiny.secondary(href='#') 上一页
+      - else
+        a.button.round.tiny(href='#{blog_host}page/#{page - 1}') 上一页
+    .right
+      - if (isLastPage)
+        a.button.round.tiny.secondary(href='#') 下一页
+      - else
+        a.button.round.tiny(href='#{blog_host}page/#{page + 1}') 下一页

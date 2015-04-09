@@ -1,14 +1,28 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-// Router
+/* 获取文档 */
 var article = require('../js/controller/article.js');
+// 根据settings中的设置，获取指定数量的文档集合(首页)
 router.get('/', article.getTen);
+// 根据页码获取文章集合
+router.get('/page/:page', article.getTen);
+// 获取文章归档
 router.get('/archive', article.getArchive);
+// 根据年月日获取文章归档(暂时未使用)
 router.get('/date/:month', article.getByDate);
+// 根据文章的ID获取文章
+router.get('/p/:id', article.getById);
 
-var test = require('../js/controller/test.js');
-router.get('/test', test.hello);
+/* 标签相关 */
+var tag = require('../js/controller/tag.js');
+router.get('/t/:tag', tag.getByTag);
+
+/* Admin */
+// 发布文章页面
+router.get('/admin/post', article.getPostForm);
+router.post('/admin/post', article.post);
 
 module.exports = router;
+
+

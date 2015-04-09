@@ -38,7 +38,7 @@ md = new Remarkable({highlight: fun})
 
 
 # 获取文章
-exports.get = (req, res) ->
+exports.getById = (req, res) ->
 
   # 所需参数
   # 文章的id，也就是文章的时间戳
@@ -74,6 +74,12 @@ exports.get = (req, res) ->
 # 获取10篇文章
 exports.getTen = (req, res) ->
 
+  # 获取请求的分页数
+  page = if req.params.page then parseInt(req.params.page) else 1
+
+  # settings中的一些设置
+  _pageArticleCount = settings.page_article_num
+
   Article
     .find {}
     .select ('title content category tags pv meta.createDate meta.timeStamp')
@@ -82,7 +88,8 @@ exports.getTen = (req, res) ->
       select: 'name -_id'
     }
     .sort ({'meta.timeStamp': -1})
-    .limit settings.page_article_num #根据配置文件设置获取的文章数
+    .skip (page - 1) *  _pageArticleCount
+    .limit _pageArticleCount
     .exec (err, articles) ->
       throw err if err
 
@@ -109,9 +116,14 @@ exports.getTen = (req, res) ->
         'blog_title': settings.blog_title,
         'blog_description': settings.blog_description,
         'blog_host': settings.blog_host,
-        'articles': _articles
+        'articles': _articles,
+        'isFirstPage': (page - 1) == 0,
+        #FIXME 如下的代码在最后一页文章数等于设置数时无法判断
+        'isLastPage': _articles.length < _pageArticleCount,
+        'page': page
       }
       return res.render 'index', data
+      #return res.jsonp data
 
 
 # 获取文章归档信息
@@ -136,6 +148,7 @@ exports.getArchive = (req, res) ->
           'title': ar.title,
           'meta': {
             'createDate': ar.meta.createDate,
+            'timeStamp': ar.meta.timeStamp,
           }
         }
         _articles.push(_ar)
