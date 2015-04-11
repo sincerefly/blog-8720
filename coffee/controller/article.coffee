@@ -223,7 +223,13 @@ exports.getByDate = (req, res) ->
 # 获取发布文章的表单
 exports.getPostForm = (req, res) ->
   #console.log '------'
-  return res.render 'admin/post'
+  blog_host = settings.blog_host
+
+  info = {
+    'blog_host': blog_host
+  }
+
+  return res.render 'admin/post', info
 
 # 发布文章
 exports.post = (req, res) ->
@@ -283,8 +289,14 @@ exports.post = (req, res) ->
     # 将文章存入数据库
     Article.create _article, (err) ->
       throw err if err
-      return res.jsonp {'status':'0', 'message': '保存文章成功'}
-      #return res.render 'admin/post'
+
+      blog_host = settings.blog_host
+
+      info = {
+        'blog_host': blog_host
+      }
+      #return res.jsonp {'status':'0', 'message': '保存文章成功'}
+      return res.render 'admin/post', info
 
 
 

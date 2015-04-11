@@ -28,6 +28,9 @@ router.get('/login', admin.login);
 router.post('/login', admin.loginCheck);
 router.get('/logout', admin.logout);
 
+router.get('/admin', admin.index);
+router.get('/admin/archive', admin.archive);
+
 module.exports = router;
 
 

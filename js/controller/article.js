@@ -207,7 +207,12 @@ exports.getByDate = function(req, res) {
 };
 
 exports.getPostForm = function(req, res) {
-  return res.render('admin/post');
+  var blog_host, info;
+  blog_host = settings.blog_host;
+  info = {
+    'blog_host': blog_host
+  };
+  return res.render('admin/post', info);
 };
 
 exports.post = function(req, res) {
@@ -254,13 +259,15 @@ exports.post = function(req, res) {
       }
     };
     return Article.create(_article, function(err) {
+      var blog_host, info;
       if (err) {
         throw err;
       }
-      return res.jsonp({
-        'status': '0',
-        'message': '保存文章成功'
-      });
+      blog_host = settings.blog_host;
+      info = {
+        'blog_host': blog_host
+      };
+      return res.render('admin/post', info);
     });
   });
 };
