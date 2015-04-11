@@ -23,6 +23,11 @@ router.get('/t/:tag', tag.getByTag);
 router.get('/admin/post', article.getPostForm);
 router.post('/admin/post', article.post);
 
+var admin = require('../js/controller/admin.js');
+router.get('/login', admin.login);
+router.post('/login', admin.loginCheck);
+router.get('/logout', admin.logout);
+
 module.exports = router;
 
 

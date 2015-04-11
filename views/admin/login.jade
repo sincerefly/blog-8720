@@ -1,0 +1,13 @@
+doctype html
+html
+  include ../tiles/header.jade
+  body
+    .position-center
+      form(method='post')
+        .row
+          .row.collapse.postfix-round
+            .small-9.columns
+              input(type='text', name='key', placeholder='Value')
+            |         
+            .small-3.columns
+              input.button.postfix(type='submit', value='Go')

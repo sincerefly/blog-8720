@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var settings = require('./settings.js');
 var mongoUrl = 'mongodb://' + settings.mongo.host + '/' + settings.mongo.database
@@ -27,6 +29,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: settings.cookieSecret,
+  key: settings.cookieName,
+  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},
+  store: new MongoStore({
+    autoReconnect: true,
+    mongooseConnection: mongoose.connection
+  })
+}))
 
 var routes = require('./routes/index');
 app.use('/', routes);
