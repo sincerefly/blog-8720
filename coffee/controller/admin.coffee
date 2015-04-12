@@ -29,7 +29,7 @@ exports.loginCheck = (req, res) ->
     #return res.jsonp {'ok': key}
     return res.redirect '/admin'
   else
-    return res.redirect '/'
+    return res.redirect '/login'
 
 
 exports.logout = (req, res) ->

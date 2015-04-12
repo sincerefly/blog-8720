@@ -28,7 +28,7 @@ exports.loginCheck = function(req, res) {
     req.session.user = key;
     return res.redirect('/admin');
   } else {
-    return res.redirect('/');
+    return res.redirect('/login');
   }
 };
 
