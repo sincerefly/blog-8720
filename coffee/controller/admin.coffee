@@ -19,12 +19,14 @@ exports.login = (req, res) ->
 
 exports.loginCheck = (req, res) ->
 
-  _key = req.body.key
+  login_key = settings.login_key
 
   md5 = crypto.createHash('md5')
   key = md5.update(req.body.key).digest('hex')
 
-  if _key == 'only31031'
+  console.log key
+
+  if key == login_key
     req.session.user = key
     #return res.jsonp {'ok': key}
     return res.redirect '/admin'

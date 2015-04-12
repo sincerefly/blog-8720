@@ -20,11 +20,12 @@ exports.login = function(req, res) {
 };
 
 exports.loginCheck = function(req, res) {
-  var _key, key, md5;
-  _key = req.body.key;
+  var key, login_key, md5;
+  login_key = settings.login_key;
   md5 = crypto.createHash('md5');
   key = md5.update(req.body.key).digest('hex');
-  if (_key === 'only31031') {
+  console.log(key);
+  if (key === login_key) {
     req.session.user = key;
     return res.redirect('/admin');
   } else {
