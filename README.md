@@ -14,10 +14,13 @@ Demo: [http://test.ishell.me/](http://test.ishell.me/)
 - Foundation5
 - Highlight.js
 
-博客支持：
+计划任务：
 - [x] Markdown
 - [x] 代码高亮
 - [x] 访问统计
+- [x] 后台登陆
+- [ ] 站内搜索
+- [ ] sitemap
 - [ ] 后台管理
 - [ ] 更换主题
 
