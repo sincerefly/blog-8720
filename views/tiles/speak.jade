@@ -1,0 +1,19 @@
+.large-9.columns(role='content')
+  | 说说
+  <hr />
+  article
+  - for speak in speaks
+    h6
+      span.secondary.label  #{speak.meta.createDate}
+      | 
+    p
+      | #{speak.content}
+//    h6
+//      span.secondary.label  #{article.meta.createDate}
+//      | 
+//      - for tag in article.tags
+//        a(href='#{blog_host}t/#{tag}')
+//          span.label #{tag}
+//        | 
+//      span.success.label #{article.pv} ℃
+    hr

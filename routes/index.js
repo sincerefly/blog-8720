@@ -3,6 +3,9 @@ var router = express.Router();
 
 /* 获取文档 */
 var article = require('../js/controller/article.js');
+var speak = require('../js/controller/speak.js');
+
+
 // 根据settings中的设置，获取指定数量的文档集合(首页)
 router.get('/', article.getTen);
 // 根据页码获取文章集合
@@ -18,10 +21,15 @@ router.get('/p/:id', article.getById);
 var tag = require('../js/controller/tag.js');
 router.get('/t/:tag', tag.getByTag);
 
+/* 说说相关 */
+router.get('/speak', speak.getArchive);
+
 /* Admin */
 // 发布文章页面
 router.get('/admin/post', article.getPostForm);
 router.post('/admin/post', article.post);
+router.get('/admin/speak', speak.getPostForm);
+router.post('/admin/speak', speak.post);
 
 var admin = require('../js/controller/admin.js');
 router.get('/login', admin.login);

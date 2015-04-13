@@ -1,4 +1,4 @@
-var Article, Category, Remarkable, fun, hljs, md, settings;
+var Article, Category, Remarkable, Speak, fun, hljs, md, settings;
 
 Remarkable = require('remarkable');
 
@@ -7,6 +7,8 @@ hljs = require('highlight.js');
 Article = require('../schemas/article');
 
 Category = require('../schemas/category');
+
+Speak = require('../schemas/speak');
 
 settings = require('../../settings.js');
 
@@ -81,7 +83,7 @@ exports.getTen = function(req, res) {
   }).sort({
     'meta.timeStamp': -1
   }).skip((page - 1) * _pageArticleCount).limit(_pageArticleCount).exec(function(err, articles) {
-    var _ar, _articles, ar, con, data, i, len;
+    var _ar, _articles, ar, con, i, len;
     if (err) {
       throw err;
     }
@@ -103,16 +105,23 @@ exports.getTen = function(req, res) {
       };
       _articles.push(_ar);
     }
-    data = {
-      'blog_title': settings.blog_title,
-      'blog_description': settings.blog_description,
-      'blog_host': settings.blog_host,
-      'articles': _articles,
-      'isFirstPage': (page - 1) === 0,
-      'isLastPage': _articles.length < _pageArticleCount,
-      'page': page
-    };
-    return res.render('index', data);
+    return Speak.find({}).select('content meta.createDate meta.timeStamp').sort({
+      'meta.timeStamp': -1
+    }).limit(1).exec(function(err, speak) {
+      var _speak, data;
+      _speak = speak[0].content;
+      data = {
+        'blog_title': settings.blog_title,
+        'blog_description': settings.blog_description,
+        'blog_host': settings.blog_host,
+        'speak': _speak,
+        'articles': _articles,
+        'isFirstPage': (page - 1) === 0,
+        'isLastPage': _articles.length < _pageArticleCount,
+        'page': page
+      };
+      return res.render('index', data);
+    });
   });
 };
 

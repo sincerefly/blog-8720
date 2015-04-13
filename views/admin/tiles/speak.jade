@@ -1,0 +1,27 @@
+.large-9.push-3.columns
+  form(method='post')
+    .row
+      .large-6.columns
+        .row.collapse.prefix-radius
+          .small-3.columns
+            span.prefix 标题
+          |       
+          .small-9.columns
+            input(type='text', placeholder='Value')
+    .row
+      .large-6.columns
+        .row.collapse.prefix-radius
+          .small-3.columns
+            span.prefix 标签
+          |       
+          .small-9.columns
+            input(type='text', placeholder='Value')
+    br
+    | 正文
+    br
+    |   
+    textarea(name='content', rows='20', cols='100')
+    br
+    |   
+    input(type='submit', value='发表')
+    br
