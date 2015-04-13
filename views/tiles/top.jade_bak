@@ -1,0 +1,19 @@
+.row(style='background-image: url(/images/wg-1.jpg);')
+  .large-12.columns
+    .nav-bar.right
+      ul.button-group
+        li
+          a.button(href='#{blog_host}') Home
+        li
+          a.button(href='#{blog_host}archive') Archive
+        li
+          a.button(href='#') Links
+        li
+          a.button(href='#') About
+    a(href='#{blog_host}')
+      h1
+        |#{blog_title}
+        small #{blog_description}
+
+    br
+br
