@@ -242,6 +242,31 @@ exports.getPostForm = (req, res) ->
 
   return res.render 'admin/post', info
 
+exports.edit = (req, res) ->
+
+  _id = req.params.id
+  console.log _id
+
+  Article
+    .find {'meta.timeStamp': _id}
+    .select ('title content category tags meta.createDate meta.createTime meta.timeStamp')
+    .exec (err, article) ->
+      throw err if err
+
+      _article = article[0]
+
+      console.log _article
+
+      info = {
+        'blog_title': settings.blog_title,
+        'blog_description': settings.blog_description,
+        'blog_host': settings.blog_host,
+        'article': _article
+      }
+
+      return res.render 'admin/edit', info
+
+
 # 发布文章
 exports.post = (req, res) ->
 
@@ -308,6 +333,31 @@ exports.post = (req, res) ->
       }
       #return res.jsonp {'status':'0', 'message': '保存文章成功'}
       return res.render 'admin/post', info
+
+
+# 发布文章
+exports.rePost = (req, res) ->
+
+  _id = req.params.id
+
+  _category = req.body.category
+  _tags = req.body.tags
+  tag_list = _tags.split(',')
+
+  data = {
+    'title': req.body.title,
+    'content': req.body.content
+  }
+
+  # 获取分类目录的ObjectId
+  Article.update {'meta.timeStamp': _id}, data, (err, num) ->
+    throw err if err
+
+    console.log num
+
+    #return res.render 'admin/post', info
+    return res.jsonp {'hello': 'world'}
+
 
 
 

@@ -3,12 +3,12 @@
     | 标题
     br
     |   
-    input(type='text', name='title')
+    input(type='text', name='title', value='#{article.title}')
     br
     | 正文
     br
     |   
-    textarea(name='content', rows='20', cols='100')
+    textarea(name='content', rows='20', cols='100') #{article.content}
     br
     |   
     | 目录
@@ -20,10 +20,10 @@
     | 标签
     br
     |   
-    input(type='text', name='tags')
+    input(type='text', name='tags' value='#{article.tags}')
     br
     |   
     br
     |   
-    input(type='submit', value='发表')
+    input(type='submit', value='保存修改')
     br

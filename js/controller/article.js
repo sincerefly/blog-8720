@@ -225,6 +225,29 @@ exports.getPostForm = function(req, res) {
   return res.render('admin/post', info);
 };
 
+exports.edit = function(req, res) {
+  var _id;
+  _id = req.params.id;
+  console.log(_id);
+  return Article.find({
+    'meta.timeStamp': _id
+  }).select('title content category tags meta.createDate meta.createTime meta.timeStamp').exec(function(err, article) {
+    var _article, info;
+    if (err) {
+      throw err;
+    }
+    _article = article[0];
+    console.log(_article);
+    info = {
+      'blog_title': settings.blog_title,
+      'blog_description': settings.blog_description,
+      'blog_host': settings.blog_host,
+      'article': _article
+    };
+    return res.render('admin/edit', info);
+  });
+};
+
 exports.post = function(req, res) {
   var _category, _tags, tag_list;
   _category = req.body.category;
@@ -278,6 +301,29 @@ exports.post = function(req, res) {
         'blog_host': blog_host
       };
       return res.render('admin/post', info);
+    });
+  });
+};
+
+exports.rePost = function(req, res) {
+  var _category, _id, _tags, data, tag_list;
+  _id = req.params.id;
+  _category = req.body.category;
+  _tags = req.body.tags;
+  tag_list = _tags.split(',');
+  data = {
+    'title': req.body.title,
+    'content': req.body.content
+  };
+  return Article.update({
+    'meta.timeStamp': _id
+  }, data, function(err, num) {
+    if (err) {
+      throw err;
+    }
+    console.log(num);
+    return res.jsonp({
+      'hello': 'world'
     });
   });
 };

@@ -4,7 +4,9 @@ var router = express.Router();
 /* 获取文档 */
 var article = require('../js/controller/article.js');
 var speak = require('../js/controller/speak.js');
-
+var tag = require('../js/controller/tag.js');
+var auth = require('../js/middleware/auth.js');
+var admin = require('../js/controller/admin.js');
 
 // 根据settings中的设置，获取指定数量的文档集合(首页)
 router.get('/', article.getTen);
@@ -18,29 +20,34 @@ router.get('/date/:month', article.getByDate);
 router.get('/p/:id', article.getById);
 
 /* 标签相关 */
-var tag = require('../js/controller/tag.js');
 router.get('/t/:tag', tag.getByTag);
 
 /* 说说相关 */
 router.get('/speak', speak.getArchive);
 
+
 /* Admin */
-var auth = require('../js/middleware/auth.js');
-// 发布文章页面
-//router.get('/admin/post', mw.checkLogin);
-//router.get('/admin/post', article.getPostForm);
+
+// 管理界面
+router.get('/admin', auth.needLogin, admin.index);
+router.get('/admin/archive', auth.needLogin, admin.archive);
+// 发布文章
 router.get('/admin/post',  auth.needLogin, article.getPostForm);
 router.post('/admin/post', auth.needLogin, article.post);
+// 编辑文章
+router.get('/admin/edit/p/:id', auth.needLogin, article.edit);
+router.post('/admin/edit/p/:id', auth.needLogin, article.rePost);
+// 删除文章
+// TODO
+// 发布说说
 router.get('/admin/speak', auth.needLogin, speak.getPostForm);
 router.post('/admin/speak', auth.needLogin, speak.post);
 
-var admin = require('../js/controller/admin.js');
+// 管理员认证
 router.get('/login', auth.needNoLogin, admin.login);
 router.post('/login', auth.needNoLogin, admin.loginCheck);
 router.get('/logout', auth.needLogin, admin.logout);
 
-router.get('/admin', auth.needLogin, admin.index);
-router.get('/admin/archive', auth.needLogin, admin.archive);
 
 module.exports = router;
 
