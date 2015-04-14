@@ -216,10 +216,11 @@ exports.getByDate = function(req, res) {
 };
 
 exports.getPostForm = function(req, res) {
-  var blog_host, info;
-  blog_host = settings.blog_host;
+  var info;
   info = {
-    'blog_host': blog_host
+    'blog_title': settings.blog_title,
+    'blog_description': settings.blog_description,
+    'blog_host': settings.blog_host
   };
   return res.render('admin/post', info);
 };

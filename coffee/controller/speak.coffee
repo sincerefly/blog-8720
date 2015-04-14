@@ -3,7 +3,7 @@ Category = require '../schemas/category'
 settings = require '../../settings.js'
 
 
-# 获取文章归档信息
+# 获取说说列表
 exports.getArchive = (req, res) ->
 
   Speak
@@ -41,11 +41,11 @@ exports.getArchive = (req, res) ->
 
 # 获取发布文章的表单
 exports.getPostForm = (req, res) ->
-  #console.log '------'
-  blog_host = settings.blog_host
 
   info = {
-    'blog_host': blog_host
+    'blog_title': settings.blog_title,
+    'blog_description': settings.blog_description,
+    'blog_host': settings.blog_host
   }
 
   return res.render 'admin/speak', info
@@ -99,10 +99,10 @@ exports.post = (req, res) ->
   Speak.create _speak, (err) ->
     throw err if err
 
-    blog_host = settings.blog_host
-
     info = {
-      'blog_host': blog_host
+      'blog_title': settings.blog_title,
+      'blog_description': settings.blog_description,
+      'blog_host': settings.blog_host
     }
     #return res.jsonp {'status':'0', 'message': '保存文章成功'}
     return res.render 'admin/speak', info

@@ -233,11 +233,11 @@ exports.getByDate = (req, res) ->
 
 # 获取发布文章的表单
 exports.getPostForm = (req, res) ->
-  #console.log '------'
-  blog_host = settings.blog_host
 
   info = {
-    'blog_host': blog_host
+    'blog_title': settings.blog_title,
+    'blog_description': settings.blog_description,
+    'blog_host': settings.blog_host
   }
 
   return res.render 'admin/post', info

@@ -25,19 +25,22 @@ router.get('/t/:tag', tag.getByTag);
 router.get('/speak', speak.getArchive);
 
 /* Admin */
+var auth = require('../js/middleware/auth.js');
 // 发布文章页面
-router.get('/admin/post', article.getPostForm);
-router.post('/admin/post', article.post);
-router.get('/admin/speak', speak.getPostForm);
-router.post('/admin/speak', speak.post);
+//router.get('/admin/post', mw.checkLogin);
+//router.get('/admin/post', article.getPostForm);
+router.get('/admin/post',  auth.needLogin, article.getPostForm);
+router.post('/admin/post', auth.needLogin, article.post);
+router.get('/admin/speak', auth.needLogin, speak.getPostForm);
+router.post('/admin/speak', auth.needLogin, speak.post);
 
 var admin = require('../js/controller/admin.js');
-router.get('/login', admin.login);
-router.post('/login', admin.loginCheck);
-router.get('/logout', admin.logout);
+router.get('/login', auth.needNoLogin, admin.login);
+router.post('/login', auth.needNoLogin, admin.loginCheck);
+router.get('/logout', auth.needLogin, admin.logout);
 
-router.get('/admin', admin.index);
-router.get('/admin/archive', admin.archive);
+router.get('/admin', auth.needLogin, admin.index);
+router.get('/admin/archive', auth.needLogin, admin.archive);
 
 module.exports = router;
 
