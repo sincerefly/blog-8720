@@ -346,7 +346,8 @@ exports.rePost = (req, res) ->
 
   data = {
     'title': req.body.title,
-    'content': req.body.content
+    'content': req.body.content,
+    'tags': tag_list
   }
 
   # 获取分类目录的ObjectId
@@ -355,8 +356,7 @@ exports.rePost = (req, res) ->
 
     console.log num
 
-    #return res.render 'admin/post', info
-    return res.jsonp {'hello': 'world'}
+    return res.redirect '/admin/archive'
 
 
 

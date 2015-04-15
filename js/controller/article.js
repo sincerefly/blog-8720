@@ -313,7 +313,8 @@ exports.rePost = function(req, res) {
   tag_list = _tags.split(',');
   data = {
     'title': req.body.title,
-    'content': req.body.content
+    'content': req.body.content,
+    'tags': tag_list
   };
   return Article.update({
     'meta.timeStamp': _id
@@ -322,8 +323,6 @@ exports.rePost = function(req, res) {
       throw err;
     }
     console.log(num);
-    return res.jsonp({
-      'hello': 'world'
-    });
+    return res.redirect('/admin/archive');
   });
 };
