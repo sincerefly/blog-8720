@@ -1,12 +1,10 @@
-var Article, Category, Remarkable, Speak, fun, hljs, md, settings;
+var Article, Remarkable, Speak, fun, hljs, md, settings;
 
 Remarkable = require('remarkable');
 
 hljs = require('highlight.js');
 
 Article = require('../schemas/article');
-
-Category = require('../schemas/category');
 
 Speak = require('../schemas/speak');
 
@@ -249,59 +247,47 @@ exports.edit = function(req, res) {
 };
 
 exports.post = function(req, res) {
-  var _category, _tags, tag_list;
+  var _article, _category, _createDate, _createTime, _date, _hours, _minutes, _month, _now, _seconds, _tags, _timeStamp, _year, appendzero, tag_list;
   _category = req.body.category;
   _tags = req.body.tags;
   tag_list = _tags.split(',');
-  return Category.findOne({
-    'name': _category
-  }, {
-    '_id': 1
-  }, function(err, id) {
-    var _article, _createDate, _createTime, _date, _hours, _id, _minutes, _month, _now, _seconds, _timeStamp, _year, appendzero;
+  _now = new Date();
+  _year = _now.getFullYear();
+  _month = _now.getMonth() + 1;
+  _date = _now.getDate();
+  _hours = _now.getHours();
+  _minutes = _now.getMinutes();
+  _seconds = _now.getSeconds();
+  appendzero = function(obj) {
+    if (obj < 10) {
+      return '0' + obj;
+    }
+    return obj;
+  };
+  _createDate = _year + '-' + appendzero(_month) + '-' + appendzero(_date);
+  _createTime = appendzero(_hours) + ':' + appendzero(_minutes) + ':' + appendzero(_seconds);
+  _timeStamp = _now.getTime();
+  _article = {
+    title: req.body.title,
+    content: req.body.content,
+    tags: tag_list,
+    pv: 0,
+    meta: {
+      createDate: _createDate,
+      createTime: _createTime,
+      timeStamp: _timeStamp
+    }
+  };
+  return Article.create(_article, function(err) {
+    var blog_host, info;
     if (err) {
       throw err;
     }
-    _id = id;
-    _now = new Date();
-    _year = _now.getFullYear();
-    _month = _now.getMonth() + 1;
-    _date = _now.getDate();
-    _hours = _now.getHours();
-    _minutes = _now.getMinutes();
-    _seconds = _now.getSeconds();
-    appendzero = function(obj) {
-      if (obj < 10) {
-        return '0' + obj;
-      }
-      return obj;
+    blog_host = settings.blog_host;
+    info = {
+      'blog_host': blog_host
     };
-    _createDate = _year + '-' + appendzero(_month) + '-' + appendzero(_date);
-    _createTime = appendzero(_hours) + ':' + appendzero(_minutes) + ':' + appendzero(_seconds);
-    _timeStamp = _now.getTime();
-    _article = {
-      title: req.body.title,
-      content: req.body.content,
-      tags: tag_list,
-      category: _id,
-      pv: 0,
-      meta: {
-        createDate: _createDate,
-        createTime: _createTime,
-        timeStamp: _timeStamp
-      }
-    };
-    return Article.create(_article, function(err) {
-      var blog_host, info;
-      if (err) {
-        throw err;
-      }
-      blog_host = settings.blog_host;
-      info = {
-        'blog_host': blog_host
-      };
-      return res.render('admin/post', info);
-    });
+    return res.render('admin/post', info);
   });
 };
 

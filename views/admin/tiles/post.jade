@@ -13,13 +13,7 @@
     textarea(name='content', rows='20', cols='100')
     br
     |   
-    | 目录
-    br
-    |   
-    input(type='text', name='category')
-    br
-    |   
-    | 标签
+    | 标签 (多个标签用','分隔)
     br
     |   
     input(type='text', name='tags')
@@ -27,5 +21,7 @@
     |   
     br
     |   
-    input(type='submit', value='发表')
+    .row
+      .small-3.columns.right
+        input.button.postfix(type='submit', value='发表')
     br

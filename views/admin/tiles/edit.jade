@@ -11,12 +11,6 @@
     textarea(name='content', rows='20', cols='100') #{article.content}
     br
     |   
-    | 目录
-    br
-    |   
-    input(type='text', name='category')
-    br
-    |   
     | 标签
     br
     |   
@@ -25,5 +19,7 @@
     |   
     br
     |   
-    input(type='submit', value='保存修改')
+    .row
+      .small-3.columns.right
+        input.button.postfix(type='submit', value='保存修改')
     br

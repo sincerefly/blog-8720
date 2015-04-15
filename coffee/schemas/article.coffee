@@ -13,9 +13,6 @@ ArticleSchema = new Schema {
       type: String
     }
   ]
-  category:
-    type: ObjectId
-    ref: 'Category'
   pv:
     type: Number
     default: 0

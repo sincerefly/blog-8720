@@ -1,7 +1,6 @@
 Remarkable = require 'remarkable'
 hljs = require 'highlight.js'
 Article = require '../schemas/article'
-Category = require '../schemas/category'
 Speak = require '../schemas/speak'
 settings = require '../../settings.js'
 
@@ -280,59 +279,52 @@ exports.post = (req, res) ->
   _tags = req.body.tags
   tag_list = _tags.split(',')
 
-  # 获取分类目录的ObjectId
-  Category.findOne {'name': _category}, {'_id': 1}, (err, id) ->
-    throw err if err
-    _id = id
 
-    #console.log _id
+  _now = new Date()
+  _year = _now.getFullYear()
+  _month = _now.getMonth() + 1
+  _date = _now.getDate()
+  _hours = _now.getHours()
+  _minutes = _now.getMinutes()
+  _seconds = _now.getSeconds()
 
-    _now = new Date()
-    _year = _now.getFullYear()
-    _month = _now.getMonth() + 1
-    _date = _now.getDate()
-    _hours = _now.getHours()
-    _minutes = _now.getMinutes()
-    _seconds = _now.getSeconds()
+  # 为日期补0函数
+  appendzero = (obj) ->
+    return '0' + obj if obj < 10
+    return obj
 
-    # 为日期补0函数
-    appendzero = (obj) ->
-      return '0' + obj if obj < 10
-      return obj
+  # 构造文章创建的日期（日期，时间，时间戳）
+  _createDate = _year + '-' + appendzero(_month) + '-' + appendzero(_date)
+  _createTime = appendzero(_hours) + ':' + appendzero(_minutes) + ':' + appendzero(_seconds)
+  _timeStamp = _now.getTime()
 
-    # 构造文章创建的日期（日期，时间，时间戳）
-    _createDate = _year + '-' + appendzero(_month) + '-' + appendzero(_date)
-    _createTime = appendzero(_hours) + ':' + appendzero(_minutes) + ':' + appendzero(_seconds)
-    _timeStamp = _now.getTime()
+  #console.log _createDate  # '2015-03-24'
+  #console.log _createTime  # '10:36:00'
+  #console.log _timeStamp   # '1427164560310'
 
-    #console.log _createDate  # '2015-03-24'
-    #console.log _createTime  # '10:36:00'
-    #console.log _timeStamp   # '1427164560310'
-
-    # 文章数据
-    _article = {
-      title: req.body.title,
-      content:req.body.content,
-      tags: tag_list,
-      category: _id,
-      pv: 0  # 访问量，默认为0
-      meta: {
-        createDate: _createDate,
-        createTime: _createTime,
-        timeStamp: _timeStamp
-      }
+  # 文章数据
+  _article = {
+    title: req.body.title,
+    content:req.body.content,
+    tags: tag_list,
+    pv: 0  # 访问量，默认为0
+    meta: {
+      createDate: _createDate,
+      createTime: _createTime,
+      timeStamp: _timeStamp
     }
-    # 将文章存入数据库
-    Article.create _article, (err) ->
-      throw err if err
+  }
+  # 将文章存入数据库
+  Article.create _article, (err) ->
+    throw err if err
 
-      blog_host = settings.blog_host
+    blog_host = settings.blog_host
 
-      info = {
-        'blog_host': blog_host
-      }
-      #return res.jsonp {'status':'0', 'message': '保存文章成功'}
-      return res.render 'admin/post', info
+    info = {
+      'blog_host': blog_host
+    }
+    #return res.jsonp {'status':'0', 'message': '保存文章成功'}
+    return res.render 'admin/post', info
 
 
 # 编辑后的文章提交
@@ -359,6 +351,8 @@ exports.rePost = (req, res) ->
     return res.redirect '/admin/archive'
 
 # 删除文章
+#FIXME 删除文章现无确认及恢复功能，所以是不合理的
+# 应修改为标记删除，并在后台管理界面进行标注
 exports.remove = (req, res) ->
 
   _id = req.params.id
