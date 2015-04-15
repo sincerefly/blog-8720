@@ -335,7 +335,7 @@ exports.post = (req, res) ->
       return res.render 'admin/post', info
 
 
-# 发布文章
+# 编辑后的文章提交
 exports.rePost = (req, res) ->
 
   _id = req.params.id
@@ -352,6 +352,18 @@ exports.rePost = (req, res) ->
 
   # 获取分类目录的ObjectId
   Article.update {'meta.timeStamp': _id}, data, (err, num) ->
+    throw err if err
+
+    console.log num
+
+    return res.redirect '/admin/archive'
+
+# 删除文章
+exports.remove = (req, res) ->
+
+  _id = req.params.id
+
+  Article.remove {'meta.timeStamp': _id}, (err, num) ->
     throw err if err
 
     console.log num

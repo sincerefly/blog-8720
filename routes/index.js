@@ -39,6 +39,7 @@ router.get('/admin/edit/p/:id', auth.needLogin, article.edit);
 router.post('/admin/edit/p/:id', auth.needLogin, article.rePost);
 // 删除文章
 // TODO
+router.get('/admin/remove/p/:id', auth.needLogin, article.remove);
 // 发布说说
 router.get('/admin/speak', auth.needLogin, speak.getPostForm);
 router.post('/admin/speak', auth.needLogin, speak.post);

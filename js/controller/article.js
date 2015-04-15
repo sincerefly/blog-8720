@@ -326,3 +326,17 @@ exports.rePost = function(req, res) {
     return res.redirect('/admin/archive');
   });
 };
+
+exports.remove = function(req, res) {
+  var _id;
+  _id = req.params.id;
+  return Article.remove({
+    'meta.timeStamp': _id
+  }, function(err, num) {
+    if (err) {
+      throw err;
+    }
+    console.log(num);
+    return res.redirect('/admin/archive');
+  });
+};
