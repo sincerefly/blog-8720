@@ -7,14 +7,8 @@
       span.secondary.label  #{article.meta.createDate}
       | 
       a(href='#{blog_host}p/#{article.meta.timeStamp}') #{article.title}
-//    p
-//      | #{article.content}
-//    h6
-//      span.secondary.label  #{article.meta.createDate}
-//      | 
-//      - for tag in article.tags
-//        a(href='#{blog_host}t/#{tag}')
-//          span.label #{tag}
-//        | 
-//      span.success.label #{article.pv} ℃
+      | 
+      .right
+        a.button.tiny.success(href='#{blog_host}admin/edit/p/#{article.meta.timeStamp}') 编辑
+        a.button.tiny.info(href='#{blog_host}admin/remove/p/#{article.meta.timeStamp}') 删除
     hr
